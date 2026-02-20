@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  telegramId   String   @unique
+  username     String?
+  firstSeenAt  DateTime @default(now())
+  lastClaimAt  DateTime @default(now())
+  borBalance   Int      @default(100)
+  isPremium    Boolean  @default(false)
+  premiumUntil DateTime?
+  mines        Mine[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Mine {
+  id        String   @id @default(cuid())
+  userId    String
+  level     Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
