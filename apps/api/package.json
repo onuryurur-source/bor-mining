@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "dev": "tsx src/server.ts",
+  "build": "prisma generate",
+  "start": "prisma migrate deploy && tsx src/server.ts"
+  "postinstall": "prisma generate"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
